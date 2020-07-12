@@ -3,6 +3,7 @@ package com.klaus.jkhazard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
@@ -11,15 +12,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.klaus.jkhazard.fragment.DeckGridFragment;
+import com.klaus.jkhazard.fragment.SingleCardSelectionFragment;
+import com.klaus.jkhazard.fragment.TopBarFragment;
 import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements DeckGridFragment.DeckListener {
-    private static final String TAG = "MainActivity";
 
-    Button mToggleDeckBtn;
-    DrawerLayout mDrawerLayout;
+    private static final String TAG = "MainActivity";
 
     Card currentCard;
 
@@ -28,29 +29,15 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDrawerLayout = (DrawerLayout) this.findViewById(R.id.drawerDeck);
-        mToggleDeckBtn = (Button) this.findViewById(R.id.smallSideBtn);
-
-        mToggleDeckBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.END);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.END);
-                }
-            }
-        });
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frag_cards, new DeckGridFragment());
-        ft.commit();
+        loadFragment(new TopBarFragment(), R.id.top_info_panel);
+        loadFragment(new SingleCardSelectionFragment(), R.id.frag_single_card_selection);
+        loadFragment(new DeckGridFragment(), R.id.frag_cards);
     }
 
     @Override
     public HashMap<Integer, Card> getMyDeck() {
         HashMap<Integer, Card> tempDeck = new HashMap<>();
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < 7; i++) {
             tempDeck.put(i, new Card(i, R.drawable.jhimg1, true, false));
         }
         return tempDeck;
@@ -69,5 +56,11 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
         }
 
         return currentCard;
+    }
+
+    protected void loadFragment(Fragment fragment, int layout) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(layout, fragment);
+        ft.commit();
     }
 }

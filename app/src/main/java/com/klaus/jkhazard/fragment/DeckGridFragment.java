@@ -39,11 +39,9 @@ public class DeckGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_deck_grid, container, false);
 
-        Log.i(TAG, "CreateView called!");
-
         mCardRecyclerView = (RecyclerView) view.findViewById(R.id.card_recycler_view);
-        mCardRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        //mCardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        //mCardRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        mCardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         mAdapter = new CardAdapter(getContext(), mDeckListener);
         mCardRecyclerView.setAdapter(mAdapter);
 
