@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class DeckGridFragment extends Fragment {
-    private static final String TAG = "CardListFragment";
+    public static final String TAG = DeckGridFragment.class.getName();
 
     public interface DeckListener {
         HashMap<Integer, Card> getMyDeck();
@@ -34,6 +34,10 @@ public class DeckGridFragment extends Fragment {
     private CardAdapter mAdapter;
 
     private DeckListener mDeckListener;
+
+    public static DeckGridFragment newInstance() {
+        return new DeckGridFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,5 +61,11 @@ public class DeckGridFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new RuntimeException("Owner must implement DeckListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mDeckListener = null;
     }
 }

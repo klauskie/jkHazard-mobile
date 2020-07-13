@@ -1,15 +1,10 @@
 package com.klaus.jkhazard;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.klaus.jkhazard.fragment.DeckGridFragment;
 import com.klaus.jkhazard.fragment.SingleCardSelectionFragment;
@@ -18,10 +13,15 @@ import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements DeckGridFragment.DeckListener {
+public class MainActivity extends AppCompatActivity implements DeckGridFragment.DeckListener, SingleCardSelectionFragment.TableSetDeckListener {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getName();
 
+    TopBarFragment mTopBarFragment;
+    SingleCardSelectionFragment mSingleCardSelectionFragment;
+    DeckGridFragment mDeckGridFragment;
+
+    HashMap<Integer, Card> mTableDeck;
     Card currentCard;
 
     @Override
@@ -29,9 +29,46 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadFragment(new TopBarFragment(), R.id.top_info_panel);
-        loadFragment(new SingleCardSelectionFragment(), R.id.frag_single_card_selection);
-        loadFragment(new DeckGridFragment(), R.id.frag_cards);
+        mTableDeck = getTableDeck();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        mTopBarFragment = (TopBarFragment) fragmentManager.findFragmentByTag(TopBarFragment.TAG);
+        if (mTopBarFragment == null) {
+            mTopBarFragment = TopBarFragment.newInstance();
+            fragmentManager.beginTransaction().add(R.id.top_info_panel, mTopBarFragment, TopBarFragment.TAG).commit();
+        }
+
+        mSingleCardSelectionFragment = (SingleCardSelectionFragment) fragmentManager.findFragmentByTag(SingleCardSelectionFragment.TAG);
+        if (mSingleCardSelectionFragment == null) {
+            mSingleCardSelectionFragment = SingleCardSelectionFragment.newInstance();
+            fragmentManager.beginTransaction().add(R.id.frag_single_card_selection, mSingleCardSelectionFragment, SingleCardSelectionFragment.TAG).commit();
+        }
+
+        mDeckGridFragment = (DeckGridFragment) fragmentManager.findFragmentByTag(DeckGridFragment.TAG);
+        if (mDeckGridFragment == null) {
+            mDeckGridFragment = DeckGridFragment.newInstance();
+            fragmentManager.beginTransaction().add(R.id.frag_cards, mDeckGridFragment, DeckGridFragment.TAG).commit();
+        }
+
+    }
+
+    public HashMap<Integer, Card> getTableDeck() {
+        HashMap<Integer, Card> tempDeck = new HashMap<>();
+        for(int i = 0; i < 2; i++) {
+            tempDeck.put(i, new Card(i, R.color.colorPrimaryDark, true, false));
+        }
+        return tempDeck;
+    }
+
+    @Override
+    public Card getFirstTableCard() {
+        return mTableDeck.get(0);
+    }
+
+    @Override
+    public Card getSecondTableCard() {
+        return mTableDeck.get(1);
     }
 
     @Override
@@ -47,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
     public void submitCard(Card selectedCard) {
         Log.d(TAG, "card submitted: " + selectedCard.getId());
         currentCard = selectedCard;
+        mSingleCardSelectionFragment.paintEditableCard(selectedCard);
     }
 
     @Override
@@ -56,11 +94,5 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
         }
 
         return currentCard;
-    }
-
-    protected void loadFragment(Fragment fragment, int layout) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(layout, fragment);
-        ft.commit();
     }
 }

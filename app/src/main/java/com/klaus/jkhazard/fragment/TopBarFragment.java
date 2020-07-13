@@ -13,6 +13,12 @@ import com.klaus.jkhazard.R;
 
 public class TopBarFragment extends Fragment {
 
+    public static final String TAG = TopBarFragment.class.getName();
+
+    public static TopBarFragment newInstance() {
+        return new TopBarFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

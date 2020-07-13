@@ -9,9 +9,9 @@ public class Card {
 
     public Card(){}
 
-    public Card(int mId, int mImageRes, boolean isNormal, boolean isScrapped) {
-        this.mId = mId;
-        this.mImageResourceID = mImageRes;
+    public Card(int id, int imageRes, boolean isNormal, boolean isScrapped) {
+        this.mId = id;
+        this.mImageResourceID = imageRes;
         this.isNormal = isNormal;
         this.isScrapped = isScrapped;
     }
