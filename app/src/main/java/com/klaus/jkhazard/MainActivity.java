@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
 
         mTopBarFragment = (TopBarFragment) fragmentManager.findFragmentByTag(TopBarFragment.TAG);
         if (mTopBarFragment == null) {
-            mTopBarFragment = TopBarFragment.newInstance();
+            mTopBarFragment = TopBarFragment.newInstance("BlueDude", "2");
             fragmentManager.beginTransaction().add(R.id.top_info_panel, mTopBarFragment, TopBarFragment.TAG).commit();
         }
 
@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
             fragmentManager.beginTransaction().add(R.id.frag_cards, mDeckGridFragment, DeckGridFragment.TAG).commit();
         }
 
+        // Setup
+        mTopBarFragment.startCountDown(60);
     }
 
     public HashMap<Integer, Card> getTableDeck() {

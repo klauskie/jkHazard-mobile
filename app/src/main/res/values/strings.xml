@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">JkHazard</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TopBarFragment -->
+    <string name="score_label">Score:</string>
+    <string name="player_in_turn_placeholder">GreenDude</string>
+    <string name="countdown_zeros">00:00</string>
 </resources>
