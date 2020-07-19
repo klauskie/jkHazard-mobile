@@ -1,11 +1,15 @@
-package com.klaus.jkhazard;
+package com.klaus.jkhazard.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.klaus.jkhazard.R;
+import com.klaus.jkhazard.common.DeckListener;
+import com.klaus.jkhazard.common.UIListener;
 import com.klaus.jkhazard.fragment.DeckGridFragment;
 import com.klaus.jkhazard.fragment.SingleCardSelectionFragment;
 import com.klaus.jkhazard.fragment.TopBarFragment;
@@ -13,9 +17,9 @@ import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements DeckGridFragment.DeckListener, SingleCardSelectionFragment.TableSetDeckListener {
+public class SelectionActivity extends AppCompatActivity implements DeckListener, SingleCardSelectionFragment.TableSetDeckListener, UIListener {
 
-    private static final String TAG = MainActivity.class.getName();
+    private static final String TAG = SelectionActivity.class.getName();
 
     TopBarFragment mTopBarFragment;
     SingleCardSelectionFragment mSingleCardSelectionFragment;
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_selection);
 
         mTableDeck = getTableDeck();
 
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
     }
 
     @Override
-    public HashMap<Integer, Card> getMyDeck() {
+    public HashMap<Integer, Card> getCardDeck() {
         HashMap<Integer, Card> tempDeck = new HashMap<>();
         for(int i = 0; i < 7; i++) {
             tempDeck.put(i, new Card(i, R.drawable.jhimg1, true, false));
@@ -96,5 +100,11 @@ public class MainActivity extends AppCompatActivity implements DeckGridFragment.
         }
 
         return currentCard;
+    }
+
+    @Override
+    public void onDoneClicked() {
+        startActivity(new Intent(this, JudgeActivity.class));
+        finish();
     }
 }

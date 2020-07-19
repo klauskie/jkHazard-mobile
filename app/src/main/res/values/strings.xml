@@ -7,4 +7,7 @@
     <string name="score_label">Score:</string>
     <string name="player_in_turn_placeholder">GreenDude</string>
     <string name="countdown_zeros">00:00</string>
+
+    <!-- Single Card fragment -->
+    <string name="label_done_button">Done</string>
 </resources>

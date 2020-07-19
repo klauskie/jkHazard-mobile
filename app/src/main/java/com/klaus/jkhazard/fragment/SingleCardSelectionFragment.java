@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.klaus.jkhazard.R;
+import com.klaus.jkhazard.common.UIListener;
 import com.klaus.jkhazard.model.Card;
 
 public class SingleCardSelectionFragment extends Fragment {
@@ -27,8 +29,10 @@ public class SingleCardSelectionFragment extends Fragment {
     private ImageView mImageCardOne;
     private ImageView mImageCardTwo;
     private ImageView mImageCardEditable;
+    private Button mDoneButton;
 
     private TableSetDeckListener mTableDeckListener;
+    private UIListener mUIListener;
 
     public static SingleCardSelectionFragment newInstance() {
         return new SingleCardSelectionFragment();
@@ -41,6 +45,15 @@ public class SingleCardSelectionFragment extends Fragment {
         mImageCardOne = (ImageView) view.findViewById(R.id.card_one);
         mImageCardTwo = (ImageView) view.findViewById(R.id.card_two);
         mImageCardEditable = (ImageView) view.findViewById(R.id.card_three);
+        mDoneButton = (Button) view.findViewById(R.id.done_button);
+
+        mDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: move to next Activity and commit state
+                mUIListener.onDoneClicked();
+            }
+        });
 
         return view;
     }
@@ -63,12 +76,19 @@ public class SingleCardSelectionFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new RuntimeException("Owner must implement TableSetDeckListener");
         }
+
+        try {
+            mUIListener = (UIListener) context;
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Owner must implement UIListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mTableDeckListener = null;
+        mUIListener = null;
     }
 
     public void paintFirstCard(Card card) {

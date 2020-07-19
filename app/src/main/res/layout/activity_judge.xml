@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.JudgeActivity">
 
     <FrameLayout
         android:id="@+id/top_info_panel"
@@ -12,20 +12,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"/>
 
-
     <FrameLayout
-        android:id="@+id/frag_single_card_selection"
+        android:id="@+id/frag_judge_card_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias=".2"
+        app:layout_constraintVertical_bias=".15"
         app:layout_constraintTop_toBottomOf="@id/top_info_panel"
-        app:layout_constraintBottom_toTopOf="@id/frag_cards"/>
-
-    <FrameLayout
-        android:id="@+id/frag_cards"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

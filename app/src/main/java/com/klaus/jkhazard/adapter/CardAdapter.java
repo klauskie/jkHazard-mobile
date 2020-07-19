@@ -12,23 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.klaus.jkhazard.R;
-import com.klaus.jkhazard.fragment.DeckGridFragment;
-import com.klaus.jkhazard.fragment.DeckGridFragment.DeckListener;
+import com.klaus.jkhazard.common.DeckListener;
 import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
 
     private static final String TAG = "CardAdapter";
 
-    private HashMap<Integer, Card> mMyDeck;
-    private Context mContext;
-    private DeckListener mDeckListener;
+    protected HashMap<Integer, Card> mMyDeck;
+    protected Context mContext;
+    protected DeckListener mDeckListener;
 
     public CardAdapter(Context context, DeckListener deckListener) {
-        mMyDeck = deckListener.getMyDeck();
+        mMyDeck = deckListener.getCardDeck();
         mContext = context;
         mDeckListener = deckListener;
     }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.SingleCardSelectionFragment"
+    tools:context=".fragment.JudgeInputCardsFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -20,8 +19,7 @@
                 android:id="@+id/card_one"
                 android:layout_width="160dp"
                 android:layout_height="225dp"
-                android:layout_margin="1dp"
-                android:layout_marginStart="68dp"
+                android:layout_marginTop="20dp"
                 android:background="#FFF"
                 android:padding="2dp"
                 android:src="@color/colorAccent" />
@@ -30,22 +28,36 @@
                 android:id="@+id/card_two"
                 android:layout_width="160dp"
                 android:layout_height="225dp"
-                android:layout_margin="1dp"
-                android:layout_marginStart="89dp"
+                android:layout_marginTop="20dp"
                 android:background="#FFF"
                 android:padding="2dp"
                 android:src="@color/colorAccent" />
 
-            <ImageView
-                android:id="@+id/card_three"
+            <LinearLayout
                 android:layout_width="160dp"
-                android:layout_height="225dp"
-                android:layout_margin="1dp"
-                android:layout_marginStart="89dp"
-                android:background="#FFF"
-                android:padding="2dp"
-                android:src="@color/colorPrimary"
-                android:visibility="visible" />
+                android:layout_height="265dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_drop_up_black_24dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/card_vertical_recycler_view"
+                    android:orientation="vertical"
+                    android:layout_width="160dp"
+                    android:layout_height="225dp"
+                    android:layout_margin="1dp"
+                    android:background="#FFF"
+                    android:padding="2dp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -59,4 +71,3 @@
         android:text="@string/label_done_button"/>
 
 </LinearLayout>
-

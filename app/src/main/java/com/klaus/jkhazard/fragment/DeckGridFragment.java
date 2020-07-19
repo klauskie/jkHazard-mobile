@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.adapter.CardAdapter;
+import com.klaus.jkhazard.common.DeckListener;
 import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
@@ -23,12 +24,6 @@ import java.util.HashSet;
 
 public class DeckGridFragment extends Fragment {
     public static final String TAG = DeckGridFragment.class.getName();
-
-    public interface DeckListener {
-        HashMap<Integer, Card> getMyDeck();
-        void submitCard(Card selectedCard);
-        Card getSubmittedCard();
-    }
 
     private RecyclerView mCardRecyclerView;
     private CardAdapter mAdapter;
