@@ -6,61 +6,63 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp">
 
             <ImageView
                 android:id="@+id/card_one"
                 android:layout_width="160dp"
                 android:layout_height="225dp"
-                android:layout_marginTop="20dp"
                 android:background="#FFF"
                 android:padding="2dp"
-                android:src="@color/colorAccent" />
+                android:src="@color/colorPrimary" />
 
             <ImageView
                 android:id="@+id/card_two"
                 android:layout_width="160dp"
                 android:layout_height="225dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
                 android:background="#FFF"
                 android:padding="2dp"
                 android:src="@color/colorAccent" />
 
-            <LinearLayout
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="160dp"
+            android:layout_height="265dp"
+            android:orientation="vertical"
+            android:layout_marginStart="5dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_drop_up_black_24dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/card_vertical_recycler_view"
+                android:orientation="vertical"
                 android:layout_width="160dp"
-                android:layout_height="265dp"
-                android:orientation="vertical">
+                android:layout_height="225dp"
+                android:layout_margin="1dp"
+                android:background="#FFF"
+                android:padding="2dp"/>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_drop_up_black_24dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/card_vertical_recycler_view"
-                    android:orientation="vertical"
-                    android:layout_width="160dp"
-                    android:layout_height="225dp"
-                    android:layout_margin="1dp"
-                    android:background="#FFF"
-                    android:padding="2dp"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_drop_down_black_24dp"/>
-
-            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"/>
 
         </LinearLayout>
-    </HorizontalScrollView>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/done_button"

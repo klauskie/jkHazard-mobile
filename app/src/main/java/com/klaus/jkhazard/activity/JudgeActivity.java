@@ -5,21 +5,25 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.DeckListener;
+import com.klaus.jkhazard.common.UIListener;
 import com.klaus.jkhazard.fragment.JudgeInputCardsFragment;
+import com.klaus.jkhazard.fragment.PreviewSetFragment;
 import com.klaus.jkhazard.fragment.TopBarFragment;
 import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
 
-public class JudgeActivity extends AppCompatActivity implements DeckListener {
+public class JudgeActivity extends AppCompatActivity implements DeckListener, UIListener {
 
     private static final String TAG = JudgeActivity.class.getName();
 
     TopBarFragment mTopBarFragment;
     JudgeInputCardsFragment mJudgeCardsFragment;
+    PreviewSetFragment mPreviewSetFragment;
     Card mSelectedCard;
 
     @Override
@@ -39,6 +43,12 @@ public class JudgeActivity extends AppCompatActivity implements DeckListener {
         if (mJudgeCardsFragment == null) {
             mJudgeCardsFragment = JudgeInputCardsFragment.newInstance();
             fragmentManager.beginTransaction().add(R.id.frag_judge_card_input, mJudgeCardsFragment, JudgeInputCardsFragment.TAG).commit();
+        }
+
+        mPreviewSetFragment = (PreviewSetFragment) fragmentManager.findFragmentByTag(PreviewSetFragment.TAG);
+        if (mPreviewSetFragment == null) {
+            mPreviewSetFragment = PreviewSetFragment.newInstance();
+            fragmentManager.beginTransaction().add(R.id.frag_preview, mPreviewSetFragment, PreviewSetFragment.TAG).commit();
         }
     }
 
@@ -64,5 +74,10 @@ public class JudgeActivity extends AppCompatActivity implements DeckListener {
         }
 
         return mSelectedCard;
+    }
+
+    @Override
+    public void onDoneClicked() {
+        Toast.makeText(this, "Done Clicked!", Toast.LENGTH_SHORT).show();
     }
 }
