@@ -13,17 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.DeckListener;
+import com.klaus.jkhazard.fragment.SingleCardSelectionFragment;
 import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
+    private static final String TAG = CardAdapter.class.getName();
 
-    private static final String TAG = "CardAdapter";
-
-    protected HashMap<Integer, Card> mMyDeck;
+    private HashMap<Integer, Card> mMyDeck;
     protected Context mContext;
-    protected DeckListener mDeckListener;
+    private DeckListener mDeckListener;
 
     public CardAdapter(Context context, DeckListener deckListener) {
         mMyDeck = deckListener.getCardDeck();
@@ -52,8 +52,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
 
     /* CardHolder Class */
     public class CardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private static final String TAG = "CardHolder";
+        private static final String TAG = "com.klaus.jkhazard.adapter.CardHolder";
 
         ImageView mCardImageView;
 

@@ -1,8 +1,10 @@
 package com.klaus.jkhazard.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
@@ -13,49 +15,65 @@ import android.widget.TextView;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.Constant;
+import com.klaus.jkhazard.common.UIListener;
 
 import java.util.Locale;
 
-public class TopBarFragment extends Fragment {
 
-    public static final String TAG = TopBarFragment.class.getName();
+public class BaseGameFragment extends Fragment {
+    public static final String TAG = BaseGameFragment.class.getName();
 
-    public static TopBarFragment newInstance(String playerInTurn, String score) {
+    protected TextView mPlayerInTurn;
+    protected TextView mMyScore;
+    protected TextView mCountdownText;
 
+    protected UIListener mUIListener;
+
+    public static BaseGameFragment newInstance(String playerInTurn, String score) {
         Bundle args = new Bundle();
         args.putString(Constant.KEY_PLAYER_IN_TURN, playerInTurn);
         args.putString(Constant.KEY_CURRENT_SCORE, score);
 
-        TopBarFragment fragment = new TopBarFragment();
+        BaseGameFragment fragment = new BaseGameFragment();
         fragment.setArguments(args);
 
         return fragment;
     }
 
-    private TextView mPlayerInTurn;
-    private TextView mMyScore;
-    private TextView mCountdownText;
-
-    private CountDownTimer mCountDownTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_top_bar, container, false);
+        View view =  inflater.inflate(getResourceLayout(), container, false);
 
+        Bundle args = getArguments();
         mPlayerInTurn = (TextView) view.findViewById(R.id.player_in_turn);
         mMyScore = (TextView) view.findViewById(R.id.score_number);
         mCountdownText = (TextView) view.findViewById(R.id.count_down_timer);
-
-        Bundle args = getArguments();
-
         mPlayerInTurn.setText(args.getString(Constant.KEY_PLAYER_IN_TURN, ""));
         mMyScore.setText(args.getString(Constant.KEY_CURRENT_SCORE, "0"));
 
         return view;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        try {
+            mUIListener = (UIListener) context;
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Owner must implement UIListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mUIListener = null;
+    }
+
     public void startCountDown(int seconds) {
-        mCountDownTimer = new CountDownTimer(seconds*1000, 1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(seconds*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 long m = (millisUntilFinished/1000 % 3600) / 60;
@@ -68,6 +86,10 @@ public class TopBarFragment extends Fragment {
                 mCountdownText.setText("done!");
             }
         }.start();
+    }
+
+    public int getResourceLayout() {
+        return R.layout.fragment_base_game;
     }
 
 }

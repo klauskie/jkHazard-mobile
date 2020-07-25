@@ -5,7 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.klaus.jkhazard.R;
+import com.klaus.jkhazard.adapter.CardAdapter;
+import com.klaus.jkhazard.common.Constant;
+import com.klaus.jkhazard.common.DeckListener;
 import com.klaus.jkhazard.common.UIListener;
 import com.klaus.jkhazard.model.Card;
 
-public class SingleCardSelectionFragment extends Fragment {
 
+public class SingleCardSelectionFragment extends BaseGameFragment {
     public static final String TAG = SingleCardSelectionFragment.class.getName();
 
     public interface TableSetDeckListener {
@@ -30,17 +34,26 @@ public class SingleCardSelectionFragment extends Fragment {
     private ImageView mImageCardTwo;
     private ImageView mImageCardEditable;
     private Button mDoneButton;
+    private RecyclerView mCardRecyclerView;
+    private CardAdapter mAdapter;
 
+    private DeckListener mDeckListener;
     private TableSetDeckListener mTableDeckListener;
-    private UIListener mUIListener;
 
-    public static SingleCardSelectionFragment newInstance() {
-        return new SingleCardSelectionFragment();
+    public static SingleCardSelectionFragment newInstance(String playerInTurn, String score) {
+        Bundle args = new Bundle();
+        args.putString(Constant.KEY_PLAYER_IN_TURN, playerInTurn);
+        args.putString(Constant.KEY_CURRENT_SCORE, score);
+
+        SingleCardSelectionFragment fragment = new SingleCardSelectionFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_single_card_selection, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         mImageCardOne = (ImageView) view.findViewById(R.id.card_one);
         mImageCardTwo = (ImageView) view.findViewById(R.id.card_two);
@@ -54,6 +67,11 @@ public class SingleCardSelectionFragment extends Fragment {
                 mUIListener.onDoneClicked();
             }
         });
+
+        mCardRecyclerView = (RecyclerView) view.findViewById(R.id.card_recycler_view);
+        mCardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mAdapter = new CardAdapter(getContext(), mDeckListener);
+        mCardRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
@@ -78,9 +96,9 @@ public class SingleCardSelectionFragment extends Fragment {
         }
 
         try {
-            mUIListener = (UIListener) context;
+            mDeckListener = (DeckListener) context;
         } catch (ClassCastException e) {
-            throw new RuntimeException("Owner must implement UIListener");
+            throw new RuntimeException("Owner must implement DeckListener");
         }
     }
 
@@ -88,7 +106,7 @@ public class SingleCardSelectionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mTableDeckListener = null;
-        mUIListener = null;
+        mDeckListener = null;
     }
 
     public void paintFirstCard(Card card) {
@@ -101,5 +119,9 @@ public class SingleCardSelectionFragment extends Fragment {
 
     public void paintEditableCard(Card card) {
         mImageCardEditable.setImageResource(card.getImageResourceID());
+    }
+
+    public int getResourceLayout() {
+        return R.layout.fragment_single_card_selection;
     }
 }

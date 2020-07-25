@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +19,11 @@ import android.widget.ImageView;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.adapter.JudgeCardAdapter;
+import com.klaus.jkhazard.common.Constant;
 import com.klaus.jkhazard.common.DeckListener;
-import com.klaus.jkhazard.common.UIListener;
 
 
-public class JudgeInputCardsFragment extends Fragment {
-
+public class JudgeInputCardsFragment extends BaseGameFragment {
     public static final String TAG = JudgeInputCardsFragment.class.getName();
 
     private ImageView mImageCardOne;
@@ -35,16 +33,22 @@ public class JudgeInputCardsFragment extends Fragment {
     private Button mDoneButton;
 
     private DeckListener mDeckListener;
-    private UIListener mUIListener;
 
-    public static JudgeInputCardsFragment newInstance() {
-        return new JudgeInputCardsFragment();
+    public static JudgeInputCardsFragment newInstance(String playerInTurn, String score) {
+        Bundle args = new Bundle();
+        args.putString(Constant.KEY_PLAYER_IN_TURN, playerInTurn);
+        args.putString(Constant.KEY_CURRENT_SCORE, score);
+
+        JudgeInputCardsFragment fragment = new JudgeInputCardsFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_judge_input_cards, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         mDoneButton = (Button) view.findViewById(R.id.done_button);
         mImageCardOne = (ImageView) view.findViewById(R.id.card_one);
@@ -82,25 +86,22 @@ public class JudgeInputCardsFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new RuntimeException("Owner must implement DeckListener");
         }
-
-        try {
-            mUIListener = (UIListener) context;
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Owner must implement UIListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mDeckListener = null;
-        mDoneButton = null;
     }
 
     private void switchCards() {
         Drawable tempDrawableForCardOne = mImageCardOne.getDrawable();
         mImageCardOne.setImageDrawable(mImageCardTwo.getDrawable());
         mImageCardTwo.setImageDrawable(tempDrawableForCardOne);
+    }
+
+    public int getResourceLayout() {
+        return R.layout.fragment_judge_input_cards;
     }
 
 }
