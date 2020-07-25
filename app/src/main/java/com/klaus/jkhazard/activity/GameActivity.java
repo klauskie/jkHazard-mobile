@@ -119,6 +119,11 @@ public class GameActivity extends AppCompatActivity implements DeckListener, Sin
         }
     }
 
+    @Override
+    public void onNextClicked() {
+
+    }
+
     private BaseGameFragment getFragmentByState() {
         switch (mPlayer.getStateGame()) {
             case SELECT:

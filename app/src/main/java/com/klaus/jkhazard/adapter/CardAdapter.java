@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.DeckListener;
-import com.klaus.jkhazard.fragment.SingleCardSelectionFragment;
 import com.klaus.jkhazard.model.Card;
 
 import java.util.HashMap;

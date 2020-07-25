@@ -77,4 +77,8 @@ public class ApiMock {
             mPlayerList.add(new Player("player_" + i, popNumCards(7)));
         }
     }
+
+    public ArrayList<Player> getPlayerList() {
+        return mPlayerList;
+    }
 }

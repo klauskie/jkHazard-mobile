@@ -8,6 +8,12 @@
     <string name="player_in_turn_placeholder">GreenDude</string>
     <string name="countdown_zeros">00:00</string>
 
-    <!-- Single Card fragment -->
+    <!-- Basic UI fragment -->
     <string name="label_done_button">Done</string>
+    <string name="label_next_button">Next</string>
+    <string name="label_start_button">Start</string>
+
+    <string name="label_players_colon">Players:</string>
+    <string name="label_waiting_room">Waiting Room</string>
+    <string name="label_enter_room_number">Room Number:</string>
 </resources>
