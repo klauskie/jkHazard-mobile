@@ -17,10 +17,7 @@ import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.UIListener;
 
 
-public class SetupRoomFragment extends Fragment {
-
-
-    UIListener mUIListener;
+public class SetupRoomFragment extends BaseInitialSetupFragment {
 
     public static SetupRoomFragment newInstance() {
         return new SetupRoomFragment();
@@ -45,20 +42,4 @@ public class SetupRoomFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            mUIListener = (UIListener) context;
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Owner must implement UIListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mUIListener = null;
-    }
 }

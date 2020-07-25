@@ -23,7 +23,7 @@ import com.klaus.jkhazard.model.Player;
 import java.util.ArrayList;
 
 
-public class WaitRoomFragment extends Fragment {
+public class WaitRoomFragment extends BaseInitialSetupFragment {
 
     public static final String KEY_IS_PLAYER_HOST = "is_player_host";
 
@@ -81,12 +81,6 @@ public class WaitRoomFragment extends Fragment {
         super.onAttach(context);
 
         try {
-            mUIListener = (UIListener) context;
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Owner must implement UIListener");
-        }
-
-        try {
             mPlayerListener = (PlayersListener) context;
         } catch (ClassCastException e) {
             throw new RuntimeException("Owner must implement PlayersListener");
@@ -96,7 +90,6 @@ public class WaitRoomFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mUIListener = null;
         mPlayerListener = null;
     }
 

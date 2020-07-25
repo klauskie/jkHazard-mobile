@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.UIListener;
+import com.klaus.jkhazard.fragment.BaseInitialSetupFragment;
 import com.klaus.jkhazard.fragment.HomeFragment;
 import com.klaus.jkhazard.fragment.JoinRoomFragment;
 import com.klaus.jkhazard.fragment.SetupRoomFragment;
@@ -46,7 +47,7 @@ public class HomeActivity extends AppCompatActivity implements UIListener, HomeF
         }
     }
 
-    public void loadFragment(Fragment fragment) {
+    public void loadFragment(BaseInitialSetupFragment fragment) {
         mCurrentFragment = fragment;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.home_content_panel, mCurrentFragment);
