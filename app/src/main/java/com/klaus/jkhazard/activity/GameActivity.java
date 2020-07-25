@@ -9,26 +9,22 @@ import android.util.Log;
 
 import com.klaus.jkhazard.R;
 import com.klaus.jkhazard.common.DeckListener;
+import com.klaus.jkhazard.common.StateGame;
 import com.klaus.jkhazard.common.UIListener;
 import com.klaus.jkhazard.fragment.BaseGameFragment;
 import com.klaus.jkhazard.fragment.JudgeInputCardsFragment;
 import com.klaus.jkhazard.fragment.SingleCardSelectionFragment;
+import com.klaus.jkhazard.model.ApiMock;
 import com.klaus.jkhazard.model.Card;
+import com.klaus.jkhazard.model.Player;
 
 import java.util.HashMap;
 
 public class GameActivity extends AppCompatActivity implements DeckListener, SingleCardSelectionFragment.TableSetDeckListener, UIListener {
     private static final String TAG = GameActivity.class.getName();
 
-    private enum StateGame {
-        JUDGE,
-        JUDGE_WAIT,
-        SELECT,
-        SELECT_WAIT
-    }
-
     BaseGameFragment mCurrentFragment;
-    StateGame mStateGame;
+    Player mPlayer;
 
     HashMap<Integer, Card> mTableDeck;
     Card currentCard;
@@ -38,8 +34,11 @@ public class GameActivity extends AppCompatActivity implements DeckListener, Sin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        mTableDeck = getTableDeck();
-        mStateGame = StateGame.SELECT;
+        ApiMock.getInstance().nextRound();
+
+        mPlayer = ApiMock.getInstance().myPlayer();
+        mTableDeck = ApiMock.getInstance().getTableCards();
+        mPlayer.setStateGame(StateGame.SELECT);
 
         loadFragment(getFragmentByState());
 
@@ -59,7 +58,7 @@ public class GameActivity extends AppCompatActivity implements DeckListener, Sin
     }
 
     public void loadFragment(BaseGameFragment fragment) {
-        switch (mStateGame) {
+        switch (mPlayer.getStateGame()) {
             case SELECT:
             case SELECT_WAIT:
                 mCurrentFragment = (SingleCardSelectionFragment) fragment;
@@ -76,14 +75,6 @@ public class GameActivity extends AppCompatActivity implements DeckListener, Sin
         fragmentTransaction.commit();
     }
 
-    public HashMap<Integer, Card> getTableDeck() {
-        HashMap<Integer, Card> tempDeck = new HashMap<>();
-        for(int i = 0; i < 2; i++) {
-            tempDeck.put(i, new Card(i, R.color.colorPrimaryDark, true, false));
-        }
-        return tempDeck;
-    }
-
     @Override
     public Card getFirstTableCard() {
         return mTableDeck.get(0);
@@ -96,47 +87,44 @@ public class GameActivity extends AppCompatActivity implements DeckListener, Sin
 
     @Override
     public HashMap<Integer, Card> getCardDeck() {
-        HashMap<Integer, Card> tempDeck = new HashMap<>();
-        for(int i = 0; i < 7; i++) {
-            tempDeck.put(i, new Card(i, R.drawable.jhimg1, true, false));
-        }
-        return tempDeck;
+        return mPlayer.getDeck();
     }
 
     @Override
     public void submitCard(Card selectedCard) {
         Log.d(TAG, "card submitted: " + selectedCard.getId());
         currentCard = selectedCard;
-        if (mStateGame == StateGame.SELECT) {
+        if (mPlayer.getStateGame() == StateGame.SELECT) {
             ((SingleCardSelectionFragment)mCurrentFragment).paintEditableCard(selectedCard);
         }
     }
 
     @Override
     public Card getSubmittedCard() {
-        if (currentCard == null) {
-            currentCard = new Card(-1, -1, true, false);
-        }
-
         return currentCard;
     }
 
     @Override
     public void onDoneClicked() {
-        switch (mStateGame) {
+
+        ApiMock.getInstance().removeCardFromPlayer(mPlayer, currentCard);
+        ApiMock.getInstance().feedCardToPlayer(mPlayer);
+        currentCard = null;
+
+        switch (mPlayer.getStateGame()) {
             case SELECT:
-                mStateGame = StateGame.JUDGE;
-                loadFragment(JudgeInputCardsFragment.newInstance("BlueDude", "2"));
+                mPlayer.setStateGame(StateGame.JUDGE);
+                loadFragment(JudgeInputCardsFragment.newInstance("BlueDude", mPlayer.getScoreString()));
                 break;
         }
     }
 
     private BaseGameFragment getFragmentByState() {
-        switch (mStateGame) {
+        switch (mPlayer.getStateGame()) {
             case SELECT:
-                return SingleCardSelectionFragment.newInstance("BlueDog", "2");
+                return SingleCardSelectionFragment.newInstance("BlueDog", mPlayer.getScoreString());
             case JUDGE:
-                return JudgeInputCardsFragment.newInstance("BlueDog", "3");
+                return JudgeInputCardsFragment.newInstance("BlueDog", mPlayer.getScoreString());
         }
         return null;
     }

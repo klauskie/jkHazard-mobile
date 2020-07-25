@@ -64,9 +64,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
         }
 
         void bind(Card card) {
-            mCardImageView.setImageResource(card.getImageResourceID());
+            //mCardImageView.setImageResource(card.getImageResourceID());
+            mCardImageView.setBackgroundColor(card.getImageResourceID());
 
-            if (mDeckListener.getSubmittedCard().getId() == card.getId()) {
+            if (mDeckListener.getSubmittedCard() != null && mDeckListener.getSubmittedCard().getId() == card.getId()) {
                 mCardImageView.setBackgroundColor(Color.rgb(0, 204, 0));
             } else {
                 mCardImageView.setBackgroundColor(Color.rgb(255, 255, 255));
@@ -79,7 +80,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
 
             final int position = this.getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                if (mMyDeck.containsKey(position)) {
+                if (mMyDeck.containsKey(position)) { // TODO: change to list
                     mDeckListener.submitCard(mMyDeck.get(position));
                     notifyDataSetChanged();
                 }

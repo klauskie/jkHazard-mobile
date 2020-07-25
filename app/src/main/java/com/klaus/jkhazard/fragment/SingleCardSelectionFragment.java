@@ -110,15 +110,18 @@ public class SingleCardSelectionFragment extends BaseGameFragment {
     }
 
     public void paintFirstCard(Card card) {
-        mImageCardOne.setImageResource(card.getImageResourceID());
+        //mImageCardOne.setImageResource(card.getImageResourceID());
+        mImageCardOne.setBackgroundColor(card.getImageResourceID());
     }
 
     public void paintSecondCard(Card card) {
-        mImageCardTwo.setImageResource(card.getImageResourceID());
+        //mImageCardTwo.setImageResource(card.getImageResourceID());
+        mImageCardTwo.setBackgroundColor(card.getImageResourceID());
     }
 
     public void paintEditableCard(Card card) {
-        mImageCardEditable.setImageResource(card.getImageResourceID());
+        //mImageCardEditable.setImageResource(card.getImageResourceID());
+        mImageCardEditable.setBackgroundColor(card.getImageResourceID());
     }
 
     public int getResourceLayout() {
