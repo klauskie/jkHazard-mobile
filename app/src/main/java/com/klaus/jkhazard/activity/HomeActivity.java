@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity implements UIListener, HomeF
     public void loadFragment(BaseInitialSetupFragment fragment) {
         mCurrentFragment = fragment;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         fragmentTransaction.replace(R.id.home_content_panel, mCurrentFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
